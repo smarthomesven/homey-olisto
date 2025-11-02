@@ -38,6 +38,7 @@ module.exports = class OlistoApp extends Homey.App {
       "trigg", async (query, args) => this.getTriggs(query));
       pressNowButtonAction.registerArgumentAutocompleteListener(
       "button", async (query, args) => this.getButtons(query));
+      this.homey.setInterval(() => this.checkLogin(), 900000);
       this.log('Olisto has been initialized');
     } catch (error) {
       this.log('Error during Olisto initialization: ', error);
@@ -70,6 +71,31 @@ module.exports = class OlistoApp extends Homey.App {
       });
     } catch (error) {
       throw new Error("Failed fetching triggs: " + error.message);
+    }
+  }
+  async checkLogin() {
+    try {
+      const token = await this.getAuthToken();
+      const response = await axios.post('https://connect.olisto.com/api/v2/users/checkLogin', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (response.data && response.data.success) {
+        return;
+      } else {
+        const email = this.homey.settings.get('username');
+        const password = this.homey.settings.get('password');
+        if (!email || !password) {
+          throw new Error('Olisto credentials are not set for re-login');
+        }
+        const loginResult = await this.loginOlisto(email, password);
+        if (!loginResult) {
+          throw new Error('Re-login to Olisto failed');
+        }
+      }
+    } catch (error) {
+      throw new Error("Failed checking login: " + error.message);
     }
   }
   async checkTriggEnabled(triggId) {
