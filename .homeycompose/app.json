@@ -15,6 +15,10 @@
     "nl": "Automatiseer het met Olisto"
   },
   "brandColor": "#554df2",
+  "bugs": {
+    "url": "https://github.com/smarthomesven/homey-olisto/issues"
+  },
+  "source": "https://github.com/smarthomesven/homey-olisto",
   "category": [
     "internet"
   ],
