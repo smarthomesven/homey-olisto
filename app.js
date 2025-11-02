@@ -11,23 +11,30 @@ module.exports = class OlistoApp extends Homey.App {
   async onInit() {
     try {
       const enableTriggAction = this.homey.flow.getActionCard('enable_trigg');
+      const disableTriggAction = this.homey.flow.getActionCard('disable_trigg');
+      const pressNowButtonAction = this.homey.flow.getActionCard('press_now_button');
+      const triggEnabledCondition = this.homey.flow.getConditionCard('trigg_is_enabled');
       enableTriggAction.registerRunListener(async (args, state) => {
         const result = await this.setTrigg(true, args.trigg.id);
         return result;
       });
-      const disableTriggAction = this.homey.flow.getActionCard('disable_trigg');
       disableTriggAction.registerRunListener(async (args, state) => {
         const result = await this.setTrigg(false, args.trigg.id);
         return result;
       });
-      const pressNowButtonAction = this.homey.flow.getActionCard('press_now_button');
       pressNowButtonAction.registerRunListener(async (args, state) => {
         const result = await this.pressNowButton(args.button.id);
         return result;
       });
+      triggEnabledCondition.registerRunListener(async (args, state) => {
+        const isEnabled = await this.checkTriggEnabled(args.trigg.id);
+        return isEnabled;
+      });
       enableTriggAction.registerArgumentAutocompleteListener(
       "trigg", async (query, args) => this.getTriggs(query));
       disableTriggAction.registerArgumentAutocompleteListener(
+      "trigg", async (query, args) => this.getTriggs(query));
+      triggEnabledCondition.registerArgumentAutocompleteListener(
       "trigg", async (query, args) => this.getTriggs(query));
       pressNowButtonAction.registerArgumentAutocompleteListener(
       "button", async (query, args) => this.getButtons(query));
@@ -63,6 +70,24 @@ module.exports = class OlistoApp extends Homey.App {
       });
     } catch (error) {
       throw new Error("Failed fetching triggs: " + error.message);
+    }
+  }
+  async checkTriggEnabled(triggId) {
+    try {
+      const token = await this.getAuthToken();
+      const response = await axios.get('https://connect.olisto.com/api/v2/triggs?format=6&bundleInstance=null', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      const triggs = response.data;
+      const trigg = triggs.find(t => t._id === triggId);
+      if (!trigg) {
+        throw new Error('Trigg not found');
+      }
+      return trigg.enabled;
+    } catch (error) {
+      throw new Error("Failed checking trigg status: " + error.message);
     }
   }
   async getButtons(query) {

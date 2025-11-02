@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "Trigg is !{{enabled|disabled}}",
+    "nl": "Trigg is !{{ingeschakeld|uitgeschakeld}}"
+  },
+  "titleFormatted": {
+    "en": "Trigg [[trigg]] is !{{enabled|disabled}}",
+    "nl": "Trigg [[trigg]] is !{{ingeschakeld|uitgeschakeld}}"
+  },
+  "args": [
+    {
+      "type": "autocomplete",
+      "name": "trigg",
+      "title": {
+        "en": "Trigg",
+        "nl": "Trigg"
+      },
+      "placeholder": {
+        "en": "Log camera battery level in Google Sheets",
+        "nl": "Stuur camera batterijniveau naar Google Sheets"
+      }
+    }
+  ]
+}
