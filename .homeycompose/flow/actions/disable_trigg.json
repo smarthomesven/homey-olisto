@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "Disable Trigg",
+    "nl": "Trigg uitschakelen"
+  },
+  "titleFormatted": {
+    "en": "Disable Trigg [[trigg]]",
+    "nl": "Trigg [[trigg]] uitschakelen"
+  },
+  "args": [
+    {
+      "type": "autocomplete",
+      "name": "trigg",
+      "title": {
+        "en": "Trigg",
+        "nl": "Trigg"
+      },
+      "placeholder": {
+        "en": "Log camera battery level in Google Sheets",
+        "nl": "Stuur camera batterijniveau naar Google Sheets"
+      }
+    }
+  ]
+}

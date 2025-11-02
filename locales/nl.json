@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "title": "Instellingen",
+    "email": "Email",
+    "password": "Wachtwoord",
+    "save": "Opslaan",
+    "saving": "Opslaan",
+    "emailerror": "Voer een emailadres in",
+    "pwerror": "Voer een wachtwoord in",
+    "failed": "Inloggen mislukt",
+    "success": "Instellingen opgeslagen"
+  }
+}

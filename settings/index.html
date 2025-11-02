@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- The '/homey.js' script must be included in your settings view to work -->
+    <script
+      type="text/javascript"
+      src="/homey.js"
+      data-origin="settings"
+    ></script>
+    <style>
+      .error {
+        color: red;
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset class="homey-form-fieldset">
+      <legend class="homey-form-legend" data-i18n="settings.title">Settings</legend>
+
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="username" data-i18n="settings.email">Email</label>
+        <input class="homey-form-input" id="username" type="text" value="" />
+      </div>
+      <p class="error" id="emailerror" data-i18n="settings.emailerror">Please enter an email address</p>
+      <div class="homey-form-group">
+        <label class="homey-form-label" for="password" data-i18n="settings.password">Password</label>
+        <input class="homey-form-input" id="password" type="password" value="" />
+      </div>
+      <p class="error" id="pwerror" data-i18n="settings.pwerror">Please enter a password</p>
+    </fieldset>
+
+    <p class="error" id="failed" data-i18n="settings.failed">Login failed</p>
+    <p style="color: green; display: none;" id="success" data-i18n="settings.success">Settings saved</p>
+    <button id="save" class="homey-button-primary-full" data-i18n="settings.save">Save</button>
+
+    <script type="text/javascript">
+      // a method named 'onHomeyReady' must be present in your code
+      function onHomeyReady(Homey) {
+        // Tell Homey we're ready to be displayed
+        Homey.ready();
+
+        const emailElement = document.getElementById("username");
+        const passwordElement = document.getElementById("password");
+        const saveElement = document.getElementById("save");
+        const successElement = document.getElementById("success");
+        const failedElement = document.getElementById("failed");
+        const emailErrorElement = document.getElementById("emailerror");
+        const pwErrorElement = document.getElementById("pwerror");
+
+        Homey.get("username", function (err, username) {
+          if (err) return Homey.alert(err);
+          if (!username) return;
+          emailElement.value = username;
+        });
+
+        Homey.get("password", function (err, password) {
+          if (err) return Homey.alert(err);
+          if (!password) return;
+          passwordElement.value = password;
+        });
+
+        function setSave() {
+          saveElement.className = 'homey-button-primary-full';
+          saveElement.textContent = Homey.__('settings.save');
+        }
+
+        function setSaving() {
+          saveElement.className = 'homey-button-primary-full is-loading';
+          saveElement.textContent = Homey.__('settings.saving');
+        }
+
+        saveElement.addEventListener("click", function (e) {
+          successElement.style.display = "none";
+          failedElement.style.display = "none";
+          emailErrorElement.style.display = "none";
+          pwErrorElement.style.display = "none";
+          setSaving();
+          if (!emailElement.value) {
+            emailErrorElement.style.display = "block";
+            setSave();
+            return;
+          }
+          if (!passwordElement.value) {
+            pwErrorElement.style.display = "block";
+            setSave();
+            return;
+          }
+          Homey.set("pendingLogin", true, function (err) {
+            if (err) return Homey.alert(err);
+          });
+          Homey.api("POST", "/login", { email: emailElement.value, password: passwordElement.value }, function (err, result) {
+            if (err) return Homey.alert(err);
+            if (!result) {
+              failedElement.style.display = "block";
+              setSave();
+              return;
+            }
+            Homey.set("username", emailElement.value, function (err) {
+              if (err) return Homey.alert(err);
+            });
+            Homey.set("password", passwordElement.value, function (err) {
+              if (err) return Homey.alert(err);
+            });
+            successElement.style.display = "block";
+            setSave();
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "settings": {
+    "title": "Settings",
+    "email": "Email",
+    "password": "Password",
+    "save": "Save",
+    "saving": "Saving",
+    "emailerror": "Please enter an email address",
+    "pwerror": "Please enter a password",
+    "failed": "Login failed",
+    "success": "Settings saved"
+  }
+}

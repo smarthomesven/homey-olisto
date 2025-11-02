@@ -1,0 +1,24 @@
+{
+  "title": {
+    "en": "Press Now button",
+    "nl": "Now-knop indrukken"
+  },
+  "titleFormatted": {
+    "en": "Press Now button [[button]]",
+    "nl": "Now-knop [[button]] indrukken"
+  },
+  "args": [
+    {
+      "type": "autocomplete",
+      "name": "button",
+      "title": {
+        "en": "Button",
+        "nl": "Knop"
+      },
+      "placeholder": {
+        "en": "Lights off",
+        "nl": "Lampen uit"
+      }
+    }
+  ]
+}
