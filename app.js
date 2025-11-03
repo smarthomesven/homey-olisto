@@ -38,7 +38,7 @@ module.exports = class OlistoApp extends Homey.App {
       "trigg", async (query, args) => this.getTriggs(query));
       pressNowButtonAction.registerArgumentAutocompleteListener(
       "button", async (query, args) => this.getButtons(query));
-      this.homey.setInterval(() => this.checkLogin(), 900000);
+      this.homey.setInterval(() => this.checkLogin().catch(this.error), 900000);
       this.log('Olisto has been initialized');
       try {
         await this.checkLogin();
@@ -192,11 +192,15 @@ module.exports = class OlistoApp extends Homey.App {
     }
   }
   async getAuthToken() {
-    const token = this.homey.settings.get('token');
-    const pendingLogin = this.homey.settings.get('pendingLogin');
-    if (pendingLogin) throw new Error('Pending login, please wait.');
-    if (!token) throw new Error('Olisto credentials are not set');
-    return token;
+    try {
+      const token = this.homey.settings.get('token');
+      const pendingLogin = this.homey.settings.get('pendingLogin');
+      if (pendingLogin) throw new Error('Pending login, please wait.');
+      if (!token) throw new Error('Olisto credentials are not set');
+      return token;
+    } catch (error) {
+      throw new Error("Failed getting auth token: " + error.message);
+    }
   }
   async loginOlisto(email,password) {
     try {
