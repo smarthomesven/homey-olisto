@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <!-- The '/homey.js' script must be included in your settings view to work -->
-    <script
-      type="text/javascript"
-      src="/homey.js"
-      data-origin="settings"
-    ></script>
+    <script type="text/javascript" src="/homey.js" data-origin="settings"></script>
     <style>
       .error {
         color: red;
@@ -20,12 +15,12 @@
 
       <div class="homey-form-group">
         <label class="homey-form-label" for="username" data-i18n="settings.email">Email</label>
-        <input class="homey-form-input" id="username" type="text" value="" />
+        <input class="homey-form-input" id="username" type="text" value="">
       </div>
       <p class="error" id="emailerror" data-i18n="settings.emailerror">Please enter an email address</p>
       <div class="homey-form-group">
         <label class="homey-form-label" for="password" data-i18n="settings.password">Password</label>
-        <input class="homey-form-input" id="password" type="password" value="" />
+        <input class="homey-form-input" id="password" type="password" value="">
       </div>
       <p class="error" id="pwerror" data-i18n="settings.pwerror">Please enter a password</p>
     </fieldset>
@@ -35,11 +30,8 @@
     <button id="save" class="homey-button-primary-full" data-i18n="settings.save">Save</button>
 
     <script type="text/javascript">
-      // a method named 'onHomeyReady' must be present in your code
       function onHomeyReady(Homey) {
-        // Tell Homey we're ready to be displayed
         Homey.ready();
-
         const emailElement = document.getElementById("username");
         const passwordElement = document.getElementById("password");
         const saveElement = document.getElementById("save");
@@ -47,29 +39,24 @@
         const failedElement = document.getElementById("failed");
         const emailErrorElement = document.getElementById("emailerror");
         const pwErrorElement = document.getElementById("pwerror");
-
         Homey.get("username", function (err, username) {
           if (err) return Homey.alert(err);
           if (!username) return;
           emailElement.value = username;
         });
-
         Homey.get("password", function (err, password) {
           if (err) return Homey.alert(err);
           if (!password) return;
           passwordElement.value = password;
         });
-
         function setSave() {
           saveElement.className = 'homey-button-primary-full';
           saveElement.textContent = Homey.__('settings.save');
         }
-
         function setSaving() {
           saveElement.className = 'homey-button-primary-full is-loading';
           saveElement.textContent = Homey.__('settings.saving');
         }
-
         saveElement.addEventListener("click", function (e) {
           successElement.style.display = "none";
           failedElement.style.display = "none";
