@@ -25,5 +25,8 @@
   },
   "1.0.8": {
     "en": "Reduce settings page file size"
+  },
+  "1.0.9": {
+    "en": "Added icons to now button autocomplete"
   }
 }
