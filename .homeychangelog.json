@@ -28,5 +28,8 @@
   },
   "1.0.9": {
     "en": "Added icons to now button autocomplete"
+  },
+  "1.1.0": {
+    "en": "Updated autocomplete to load results faster"
   }
 }
