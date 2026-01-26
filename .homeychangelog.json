@@ -31,5 +31,8 @@
   },
   "1.1.0": {
     "en": "Updated autocomplete to load results faster"
+  },
+  "1.1.1": {
+    "en": "Update dependencies"
   }
 }
