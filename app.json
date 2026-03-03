@@ -24,6 +24,14 @@
   "category": [
     "internet"
   ],
+  "tags": {
+    "en": [
+      "triggi"
+    ],
+    "nl": [
+      "triggi"
+    ]
+  },
   "permissions": [],
   "images": {
     "small": "/assets/images/small.png",
