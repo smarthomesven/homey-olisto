@@ -43,5 +43,8 @@
   },
   "1.1.4": {
     "en": "Update dependencies"
+  },
+  "1.1.5": {
+    "en": "Added tags for app store visibility"
   }
 }
