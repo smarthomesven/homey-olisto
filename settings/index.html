@@ -52,10 +52,14 @@
         function setSave() {
           saveElement.className = 'homey-button-primary-full';
           saveElement.textContent = Homey.__('settings.save');
+          emailElement.disabled = false;
+          passwordElement.disabled = false;
         }
         function setSaving() {
           saveElement.className = 'homey-button-primary-full is-loading';
           saveElement.textContent = Homey.__('settings.saving');
+          emailElement.disabled = true;
+          passwordElement.disabled = true;
         }
         saveElement.addEventListener("click", function (e) {
           successElement.style.display = "none";
