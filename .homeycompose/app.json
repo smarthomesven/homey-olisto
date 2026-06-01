@@ -7,8 +7,7 @@
     "local"
   ],
   "name": {
-    "en": "Olisto",
-    "nl": "Olisto"
+    "en": "Olisto"
   },
   "description": {
     "en": "Automate it with Olisto",
@@ -25,9 +24,6 @@
   ],
   "tags": {
     "en": [
-      "triggi"
-    ],
-    "nl": [
       "triggi"
     ]
   },
