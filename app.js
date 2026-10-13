@@ -2,6 +2,7 @@
 
 const Homey = require('homey');
 const axios = require('axios');
+const HomeyPush = require('./lib/push');
 
 module.exports = class OlistoApp extends Homey.App {
 
@@ -10,6 +11,8 @@ module.exports = class OlistoApp extends Homey.App {
    */
   async onInit() {
     try {
+      this.push = new HomeyPush(this);
+      await this.push.startPush();
       const enableTriggAction = this.homey.flow.getActionCard('enable_trigg');
       const disableTriggAction = this.homey.flow.getActionCard('disable_trigg');
       const pressNowButtonAction = this.homey.flow.getActionCard('press_now_button');
@@ -46,7 +49,7 @@ module.exports = class OlistoApp extends Homey.App {
         this.log('Initial Olisto login check failed: ', error);
       }
     } catch (error) {
-      this.log('Error during Olisto initialization: ', error);
+      this.error('Error during Olisto initialization: ', error);
     }
   }
   async getTriggs(query) {
@@ -225,6 +228,12 @@ module.exports = class OlistoApp extends Homey.App {
     } catch (error) {
       this.homey.settings.set('pendingLogin', false);
       return false;
+    }
+  }
+
+  async onUninit() {
+    if (this.push) {
+      this.push.stopPush();
     }
   }
 
